@@ -38,4 +38,4 @@ My results, observations and takeways are contained in a medium post [here](http
 
 ## Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
-The data for this project was gotten from [here](https://www.kaggle.com/stackoverflow/so-survey-2017).  
+The data for this project was gotten from Kaggle. View [here](https://www.kaggle.com/stackoverflow/so-survey-2017).  
