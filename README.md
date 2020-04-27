@@ -1,4 +1,4 @@
-# udacity-data-scientist-project
+# Udacity Data Scientist Nanodegree projects
 Repo contains projects for the Udacity Data Scientist Nanodegree
 
 
