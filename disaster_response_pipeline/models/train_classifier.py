@@ -1,8 +1,10 @@
 import sys
 import pandas as pd
 import numpy as np
-import nltk
+import re
 
+import nltk
+from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
@@ -18,13 +20,24 @@ from sqlalchemy import create_engine
 
 import pickle
 
+
 def load_data(database_filepath):
-    
+    """
+    Loads data from the sqlite database with path passed in.
+
+    Args:
+        database_filepath: the path of the database file
+    Returns:
+        X (DataFrame): Messages
+        Y (DataFrame): One-hot encoded categories
+        categories (List)
+    """
+
     engine = create_engine('sqlite:///'+database_filepath)
     df = pd.read_sql_table('Messages', con=engine)
 
-    
-    df = df.dropna() 
+    #drop null values
+    df = df.dropna()
 
     X = df.loc[:, 'message']
     Y = df.iloc[:, 4:]
@@ -34,25 +47,57 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
-    
-    tokens = word_tokenize(text)
-    wl = WordNetLemmatizer()
-   
-    tokens = [wl.lemmatize(t).lower().strip() for t in tokens]
+    """
+        Processes and tokenizes the message by:
+        - replacing urls
+        - converting to lower cases (normalization)
+        - remove stopwords
+        - stripping white spaces
+    Args:
+        text: input messages
+    Returns:
+        tokens(List)
+    """
+    # Define url regex
+    url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+
+    # Find and replace urls
+    found_urls = re.findall(url_regex, text)
+    for url in found_urls:
+        text = text.replace(url, "urlplaceholder")
+
+    # tokenize sentences
+    tokens = word_tokenize(text)   
+    lemmatizer = WordNetLemmatizer()
+
+    # save cleaned tokens
+    tokens = [lemmatizer.lemmatize(token).lower().strip() for token in tokens]
+
+    # remove stopwords
+    STOPWORDS = list(set(stopwords.words('english')))
+    tokens = [token for token in tokens if token not in STOPWORDS]
 
     return tokens
 
 
 def build_model(parameters={}):
-    
+    """
+      Builds pipeline - CountVectorizer, TfidfTransformer, MultiOutputClassifier, 
+    Args: 
+        None
+    Returns: 
+        pipeline
+    """
     pipeline = Pipeline([('vect', CountVectorizer(tokenizer = tokenize)),
-                            ('tfidf', TfidfTransformer()),
-                            ('classifier', MultiOutputClassifier(RandomForestClassifier(**parameters)))])
+                        ('tfidf', TfidfTransformer()),
+                        ('classifier', MultiOutputClassifier(RandomForestClassifier(**parameters)))])
     return pipeline
 
 
 def optimal_params(model, X_train, Y_train):
-    ## narrowed the parameters after testing
+    """Optimized model's parameters and returns best parameters"""
+
+    # narrowed the parameters after testing
     parameters = {
         'classifier__estimator__n_estimators': [50, 100],
         'classifier__estimator__max_features': ['sqrt',],
@@ -65,10 +110,20 @@ def optimal_params(model, X_train, Y_train):
     return cv.best_params_
 
 def evaluate_model(model, X_test, Y_test, category_names):
-    
+    """
+    Evaluate the model's results, using precison, recall and f1-score
+
+    Args: 
+        model: the model to be evaluated
+        X_test: X_test dataframe
+        Y_test: Y_test dataframe
+        category_names: category names list defined in load data
+    Returns: 
+        results (DataFrame)
+    """
     predictions = model.predict(X_test)
     
-   
+    # build classification report on every column
     print("Accuracy scores for each category\n")
     print("*-" * 30)
 
@@ -77,7 +132,9 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath):
-    
+    """
+        Save model to pickle
+    """
     joblib.dump(model, open(model_filepath, "wb"))
 
 
@@ -102,7 +159,7 @@ def main():
         print("Optimal parameters")
         print(random_forest_params)
 
-        print('Building random forest model with optimal parameters')
+        print('Fine tuning random forest model with optimal parameters')
         model = build_model(random_forest_params)
 
         print('Training model...')
