@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Disaster Response Pipeline Project
 ### Table of Contents
 
@@ -9,7 +8,8 @@
 
 
 ## Project Motivation<a name="motivation"></a>
-I set out to create an ETL and machine learning pipeline to categorize messages sent during a disaster event. This project includes a web app to display visualizations of the data
+I set out to create an ETL and machine learning pipeline to categorize messages sent during a disaster event. This project includes a web app to display visualizations of the data.
+The web app also displays visualizations of genre and categories of messages
 
 
 ## Instructions <a name="instructions"></a>
@@ -37,15 +37,3 @@ Example message to classify: "Really Thirsty"
 ## Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
 The data for this project was gotten from the Udacity project workspace and code samples from udacity practice notebooks 
-=======
-# udacity-data-scientist-project
-Repo contains projects for the Udacity Data Scientist Nanodegree
-
-
-## Projects include;
-1. Write a data science blog post (In Progress)
-2. Build Disaster Response Pipelines with Figure Eight (Coming Soon)
-3. Design a Recommendation Engine with IBM (Coming Soon)
-4. Data Science Capstone Project (Coming Soon)
-
->>>>>>> 98c70a893c6eef4063aec71fc35f3a00f2a3a854
