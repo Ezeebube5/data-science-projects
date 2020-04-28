@@ -21,7 +21,7 @@ def load_data(messages_filepath, categories_filepath):
     return df
 
 def clean_data(df):
-     """
+    """
         Transforms loaded data
         1. Handles Duplicates by removing
         2. Renames columns          
@@ -59,18 +59,18 @@ def clean_data(df):
     return df
 
 def save_data(df, database_filename):
-      """
-        load processed dataframe into sqlite database
+    """
+        Load processed dataframe into sqlite database
 
     Args: 
-        df: The preprocessed dataframe
-        database_filename: name of the database
+        df: dataframe containing data to be loaded to database
+        database_filename: name of the database to load data into
     Returns: 
         None
     """
 
     # save data into a sqlite database
-    engine = create_engine('sqlite:///Messages.db')
+    engine = create_engine('sqlite:///'+database_filename)
     df.to_sql('Messages', engine, index=False, if_exists='replace')
 
 
