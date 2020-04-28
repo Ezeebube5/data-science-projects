@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Disaster Response Pipeline Project
 ### Table of Contents
 
@@ -36,3 +37,15 @@ Example message to classify: "Really Thirsty"
 ## Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
 The data for this project was gotten from the Udacity project workspace and code samples from udacity practice notebooks 
+=======
+# udacity-data-scientist-project
+Repo contains projects for the Udacity Data Scientist Nanodegree
+
+
+## Projects include;
+1. Write a data science blog post (In Progress)
+2. Build Disaster Response Pipelines with Figure Eight (Coming Soon)
+3. Design a Recommendation Engine with IBM (Coming Soon)
+4. Data Science Capstone Project (Coming Soon)
+
+>>>>>>> 98c70a893c6eef4063aec71fc35f3a00f2a3a854
