@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
 
+
 def load_data(messages_filepath, categories_filepath):
     """
         Loads data from csv files passed as input and merges them. 
@@ -17,8 +18,9 @@ def load_data(messages_filepath, categories_filepath):
     categories = pd.read_csv(categories_filepath)
 
     # merge messages and categories dataframes
-    df = pd.merge(messages, categories, on = 'id')
+    df = pd.merge(messages, categories, on='id')
     return df
+
 
 def clean_data(df):
     """
@@ -46,10 +48,11 @@ def clean_data(df):
 
     # set each value to be the last character of the string
     for column in categories:
-        categories[column] = categories[column].apply(lambda x: int(x.split('-')[1]))
+        categories[column] = categories[column].apply(
+            lambda x: int(x.split('-')[1]))
 
    # drop the original categories column from `df`
-    df.drop('categories', axis = 1, inplace = True)
+    df.drop('categories', axis=1, inplace=True)
 
     # join the original dataframe with the new `categories` dataframe
     df = df.join(categories)
@@ -57,6 +60,7 @@ def clean_data(df):
     # drop duplicates
     df = df.drop_duplicates()
     return df
+
 
 def save_data(df, database_filename):
     """
@@ -74,8 +78,6 @@ def save_data(df, database_filename):
     df.to_sql('Messages', engine, index=False, if_exists='replace')
 
 
-
-
 def main():
     if len(sys.argv) == 4:
 
@@ -87,18 +89,18 @@ def main():
 
         print('Cleaning data...')
         df = clean_data(df)
-        
+
         print('Saving data...\n    DATABASE: {}'.format(database_filepath))
         save_data(df, database_filepath)
-        
+
         print('Cleaned data saved to database!')
-    
+
     else:
-        print('Please provide the filepaths of the messages and categories '\
-              'datasets as the first and second argument respectively, as '\
-              'well as the filepath of the database to save the cleaned data '\
-              'to as the third argument. \n\nExample: python process_data.py '\
-              'disaster_messages.csv disaster_categories.csv '\
+        print('Please provide the filepaths of the messages and categories '
+              'datasets as the first and second argument respectively, as '
+              'well as the filepath of the database to save the cleaned data '
+              'to as the third argument. \n\nExample: python process_data.py '
+              'disaster_messages.csv disaster_categories.csv '
               'DisasterResponse.db')
 
 
