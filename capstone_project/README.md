@@ -1,6 +1,6 @@
 # Nanodegree Capstone - StarBucks Challenge
 
-My results, observations and takeways are contained in a medium post [here](https://medium.com/@ebube_eze/surprising-takeaways-from-the-stack-overflow-survey-results-485fdfc6fc3d?sk=fc876c5cd48896928e6a3f21e48bca36).
+My results, observations and takeways are contained in a medium post [here](https://medium.com/@ebube_eze/i-analyzed-starbucks-data-heres-what-i-found-4f2c82fc40?sk=3175bf69452c037f5cc34a8cfc5e5f44).
 
 ### Table of Contents
 
